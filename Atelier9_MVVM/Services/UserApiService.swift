@@ -8,12 +8,27 @@
 import Foundation
 
 protocol UserApiServiceProtocol{
-    func fetchUser(completion: (User) -> Void)
+    func fetchUser(completion: ([User]) -> Void)
+    func deleteUser()
 }
 
 final class UserApiService : UserApiServiceProtocol{
-    func fetchUser(completion: (User) -> Void) {
+    
+    var users = [
+        User(username: "Jon Snow", email: "j.snow@gmail.com"),
+        User(username: "Robert Snow", email: "r.snow@gmail.com"),
+        User(username: "Cersei Lannister", email: "Cersei@gmail.com"),
+        User(username: "Daenarys targaryen", email: "Daenarys@gmail.com"),
+    ]
+    
+    func fetchUser(completion: ([User]) -> Void) {
         // TODO: fetch user from API ...
-        completion(.init(username: "Chebihi Fayçal", email: "F.Chebihi@gmail.com"))
+        completion(.init(
+            users
+        ))
+    }
+    
+    func deleteUser() {
+        users.removeLast()
     }
 }

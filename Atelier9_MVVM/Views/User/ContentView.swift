@@ -9,25 +9,28 @@ import SwiftUI
 
 struct UserProfileView: View {
     
-    @StateObject private var viewModel = UserProfileViewModel()
+    @ObservedObject private var viewModel = UserProfileViewModel()
     
     var body: some View {
-        VStack{
-            HStack{
-                Text(viewModel.username)
-                Spacer()
+        ZStack(alignment: .bottomTrailing) {
+            ScrollView{
+                ForEach(viewModel.users, id: \.username) { user in
+                    HStack{
+                        Text(user.username).font(.title2).fontWeight(.bold)
+                        Spacer()
+                        Text(user.email)
+                    }.padding(12)
+                }
+            }.onAppear{
+                viewModel.onAppear()}
+            Menu("Menu"){
+                Button("Reverse", action: {viewModel.reverseOrder()})
+                Button("Suffle", action: {viewModel.shuffleOrder()})
+                Button("Remove Last", action: {viewModel.removeLastUser()})
+                Button("Remove First", action: {viewModel.removeFirstUser()})
             }
-            HStack{
-                Text(viewModel.email)
-                Spacer()
-            }
-            Spacer()
-        }
-        .padding(25)
-        .onAppear{
-            viewModel.onAppear()
-        }
-        .navigationTitle("Profile")
+        }.padding()
+        
     }
 }
 

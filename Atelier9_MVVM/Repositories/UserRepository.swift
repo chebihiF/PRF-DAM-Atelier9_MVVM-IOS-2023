@@ -8,7 +8,8 @@
 import Foundation
 
 protocol UserRepositoryProtocol {
-    func fetchUser(completion: (User) -> Void) // IOC
+    func fetchUser(completion: ([User]) -> Void) // IOC
+    func deleteUser()
 }
 
 final class UserRepository: UserRepositoryProtocol {
@@ -19,8 +20,12 @@ final class UserRepository: UserRepositoryProtocol {
         self.apiService = apiService
     }
     
-    func fetchUser(completion: (User) -> Void) {
+    func fetchUser(completion: ([User]) -> Void) {
         apiService.fetchUser(completion: completion)
+    }
+    
+    func deleteUser() {
+        apiService.deleteUser()
     }
 }
 

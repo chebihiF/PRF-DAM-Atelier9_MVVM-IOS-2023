@@ -8,8 +8,8 @@
 import Foundation
 
 final class UserProfileViewModel : ObservableObject {
-    @Published var username = ""
-    @Published var email = ""
+   
+    @Published var users: [User] = []
     
     private let repository: UserRepositoryProtocol
     init(repository: UserRepositoryProtocol = UserRepository()) {
@@ -17,9 +17,24 @@ final class UserProfileViewModel : ObservableObject {
     }
     
     func onAppear(){
-        repository.fetchUser{ user in
-            self.username = user.username
-            self.email = user.email.lowercased()
+        repository.fetchUser{ users in
+            self.users = users
         }
+    }
+    
+    func shuffleOrder(){
+        users.shuffle()
+    }
+    
+    func reverseOrder(){
+        users.reverse()
+    }
+    
+    func removeLastUser(){
+        self.repository.deleteUser()
+    }
+    
+    func removeFirstUser(){
+        users.removeFirst()
     }
 }
